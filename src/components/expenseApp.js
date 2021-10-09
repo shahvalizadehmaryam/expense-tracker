@@ -1,26 +1,32 @@
 import { useEffect, useState } from "react";
-import NewTransaction from "./newTransaction";
 import OverViewComponent from "./overViewComponent";
 import TransactionComponent from "./transactionComponent";
 
-const ExpenseApp = () => {
+const ExpenseApp = (props) => {
   const [transactionList, setTransactionList] = useState([]);
-  // const [isShow, setIsShow] = useState(false);
   const [expense, setExpense] = useState(0);
   const [income, setIncome] = useState(0);
-  // const showFormHandler = () => {
-  //   const show = !isShow;
-  //   setIsShow(show);
-  // };
-  const AddNewTransaction = (transaction) => {
-    console.log(transaction);
-    if (transaction.income_expense === "income") {
-      setIncome((prevState) => prevState + parseFloat(+transaction.amount));
-    } else {
-      setExpense((prevState) => prevState + parseFloat(+transaction.amount));
-    }
 
+  useEffect(() => {
+    let exp = 0;
+    let inc = 0;
+    transactionList.forEach((t) => {
+      t.income_expense === "expense"
+        ? (exp = exp + parseFloat(t.amount))
+        : (inc = inc + parseFloat(t.amount));
+    });
+    setExpense(exp);
+    setIncome(inc);
+  }, [transactionList]);
+
+  const AddNewTransaction = (transaction) => {
     setTransactionList([transaction, ...transactionList]);
+  };
+  const deleteTransactionHandler = (id) => {
+    const filteredData = transactionList.filter(
+      (transaction) => transaction.id !== id
+    );
+    setTransactionList(filteredData);
   };
   return (
     <section className="container">
@@ -29,10 +35,10 @@ const ExpenseApp = () => {
         income={income}
         AddNewTransaction={AddNewTransaction}
       />
-
-      {/* Transactions */}
-      <TransactionComponent transactionList={transactionList} />
-      {/* {isShow && <NewTransaction onAddTransaction={AddNewTransaction} />} */}
+      <TransactionComponent
+        transactionList={transactionList}
+        onDelete={deleteTransactionHandler}
+      />
     </section>
   );
 };

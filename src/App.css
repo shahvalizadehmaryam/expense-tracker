@@ -43,10 +43,6 @@
 .balanceStyle {
   font-weight: bold;
 }
-/* .expenseStyle {
-  color: red;
-  font-weight: bold;
-} */
 .incomeStyle {
   color: green;
   font-weight: bold;
@@ -105,4 +101,20 @@ input[type="radio"] {
   display: flex;
   justify-content: space-between;
   border-right: 4px solid green;
+}
+input.search {
+  display: block;
+  width: 90%;
+  background-color: #efefef;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 12px;
+  margin: 20px 0;
+}
+.trash {
+  color: #dc2626;
+}
+.btnTrash {
+  background: white;
+  border: 1px solid #dc2626;
 }
